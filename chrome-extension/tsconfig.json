@@ -1,0 +1,29 @@
+{
+	"extends": "plasmo/templates/tsconfig.base",
+	"exclude": [
+		"node_modules"
+	],
+	"include": [
+		".plasmo/**/*",
+		"./**/*.ts",
+		"./**/*.tsx",
+		"jest.config.mjs"
+	],
+	"compilerOptions": {
+		"paths": {
+			"~*": [
+				"./src/*"
+			]
+		},
+		"baseUrl": ".",
+		"module": "es2015",
+		"declaration": false,
+		"sourceMap": false,
+		"outDir": "./lib",
+		"rootDir": "./src",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	}
+}
