@@ -1,7 +1,10 @@
 use async_graphql_axum::{GraphQLBatchRequest, GraphQLResponse};
 use axum::{extract::Extension, routing::get, routing::post, Router};
 use mystic_light_sdk::{CommonError, MysticLightSDK};
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::{
+    cors::{Any, CorsLayer},
+    trace::TraceLayer,
+};
 
 use crate::graphql::{create_qraphql_schema, MysticLightSchema};
 
@@ -30,6 +33,7 @@ pub fn create_app() -> Result<Router, CommonError> {
     Ok(Router::new()
         .route("/mystic_light", post(graphql))
         .route("/healthz", get(healthz))
+        .layer(TraceLayer::new_for_http())
         .layer(Extension(schema))
         .layer(
             CorsLayer::new()

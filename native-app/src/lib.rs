@@ -14,7 +14,6 @@ fn resolve_port() -> u16 {
 
 #[cfg(not(debug_assertions))]
 fn resolve_port() -> u16 {
-    println!("random");
     portpicker::pick_unused_port().expect("Cannot resolve free port")
 }
 
@@ -37,7 +36,7 @@ pub fn start_server() {
 
         let local_address = server.local_addr();
 
-        log::info!("Server started at {}", local_address);
+        tracing::info!("Server started at {}", local_address);
 
         let props = Props::new(local_address);
 
