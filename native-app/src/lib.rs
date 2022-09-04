@@ -1,10 +1,13 @@
 mod app;
+pub mod constants;
 mod graphql;
 pub mod log;
 mod props;
 mod sdk;
 
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use std::thread;
+use std::time::Duration;
 
 use axum::Router;
 use mystic_light_sdk::{CommonError, MysticLightSDK};
@@ -16,6 +19,7 @@ use sdk::create_sdk;
 
 const STATIC_PORT: u16 = 5000;
 const MAX_ATTEMPTS_SDK_INIT: u8 = 1;
+const ATTEMPTS_TIMEOUT: u64 = 5;
 
 fn resolve_random_port() -> Option<u16> {
     portpicker::pick_unused_port()
@@ -81,6 +85,8 @@ impl AppBuilder {
             if sdk.is_ok() || attempts == self.max_attempts_sdk_init {
                 break sdk;
             }
+
+            thread::sleep(Duration::from_secs(ATTEMPTS_TIMEOUT));
         }?;
 
         App::new(sdk, port, self.shutdown_rx.take())
