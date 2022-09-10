@@ -1,4 +1,5 @@
 mod app;
+mod config;
 pub mod constants;
 mod graphql;
 pub mod log;

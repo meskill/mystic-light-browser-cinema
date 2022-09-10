@@ -19,20 +19,20 @@ pub fn start_logging() {
 
     #[cfg(not(debug_assertions))]
     {
+        use crate::config;
+        use file_rotate::{
+            compression::Compression, suffix::AppendCount, ContentLimit, FileRotate,
+        };
+
+        use std::sync::Mutex;
+
         const LOG_FILES_LIMIT: usize = 5;
         const LOG_FILE_BYTES_LIMIT: usize = 20 * 1024 * 1024;
         const LOG_DIR_NAME: &str = "logs";
         const LOG_FILE_NAME: &str = "log.txt";
 
-        use file_rotate::{
-            compression::Compression, suffix::AppendCount, ContentLimit, FileRotate,
-        };
-        use std::env;
-        use std::sync::Mutex;
+        let mut log_dir = config::resolve_config_dir();
 
-        let mut log_dir = env::current_exe().unwrap();
-
-        log_dir.pop();
         log_dir.push(LOG_DIR_NAME);
         log_dir.push(LOG_FILE_NAME);
 

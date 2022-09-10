@@ -1,22 +1,10 @@
 use std::env;
 use std::fs;
 use std::net::SocketAddr;
-use std::path::PathBuf;
 
 use serde::Serialize;
 
-fn resolve_config_dir() -> PathBuf {
-    let mut path = if let Ok(dir) = env::var("ProgramData") {
-        PathBuf::from(dir)
-    } else {
-        PathBuf::from("C:\\\\ProgramData")
-    };
-
-    path.push("Mystic Light");
-    path.push("Mystic Light Browser Cinema");
-
-    path
-}
+use crate::config;
 
 #[derive(Serialize)]
 pub struct Props {
@@ -33,7 +21,7 @@ impl Props {
     }
 
     pub fn save(&self) -> Result<(), Box<dyn std::error::Error>> {
-        let config_dir = resolve_config_dir();
+        let config_dir = config::resolve_config_dir();
 
         fs::create_dir_all(&config_dir)?;
 
