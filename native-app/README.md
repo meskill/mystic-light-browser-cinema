@@ -1,3 +1,13 @@
+## Installer
+
+[Inno Setup](https://jrsoftware.org/isinfo.php) is used to build an installer for native application.
+
+### Build an installer
+
+- Make sure the `iscc.exe` is available in terminal
+- In terminal move to directory `./native-app`
+- Run command `iscc.exe installer/inno-setup.iss`
+
 ## Debug
 
 ### Enable additional logging
