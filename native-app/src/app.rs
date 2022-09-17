@@ -1,10 +1,7 @@
 use async_graphql_axum::{GraphQLBatchRequest, GraphQLResponse};
 use axum::{extract::Extension, routing::get, routing::post, Router};
 use mystic_light_sdk::MysticLightSDK;
-use tower_http::{
-    cors::{Any, CorsLayer},
-    trace::TraceLayer,
-};
+use tower_http::{cors::CorsLayer, trace::TraceLayer};
 
 use crate::graphql::{create_qraphql_schema, MysticLightSchema};
 
@@ -27,10 +24,5 @@ pub fn create_app(sdk: MysticLightSDK) -> Router {
         .route("/healthz", get(healthz))
         .layer(TraceLayer::new_for_http())
         .layer(Extension(schema))
-        .layer(
-            CorsLayer::new()
-                .allow_methods(Any)
-                .allow_origin(Any)
-                .allow_headers(Any),
-        )
+        .layer(CorsLayer::very_permissive().allow_credentials(true))
 }
