@@ -22,7 +22,7 @@
 		"@graphql-codegen/typescript": "2.7.1",
 		"@graphql-codegen/typescript-document-nodes": "2.3.1",
 		"@graphql-codegen/typescript-operations": "2.5.1",
-		"@meskill/sharec-config": "^1.0.8",
+		"@meskill/sharec-config": "^1.0.9",
 		"@plasmohq/prettier-plugin-sort-imports": "1.1.1",
 		"@types/chrome": "0.0.193",
 		"@types/jest": "^28.1.6",
@@ -52,6 +52,6 @@
 	],
 	"sharec": {
 		"config": "@meskill/sharec-config",
-		"version": "1.0.8"
+		"version": "1.0.9"
 	}
 }

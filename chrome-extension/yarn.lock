@@ -1843,12 +1843,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@meskill/sharec-config@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "@meskill/sharec-config@npm:1.0.8"
+"@meskill/sharec-config@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "@meskill/sharec-config@npm:1.0.9"
   dependencies:
     sharec: ^2.10.7
-  checksum: af0fe47fb6afb222f9dab40948a1ab7d2d7978f5a15cde30f67c0d0c2c026461efe2eb1a820b2824f9f0f9508bc84e455caffde47fe4b3b69206a379be42ce15
+  checksum: 4611b225c3814d58aa1df439007a4fbe63d134d8188d5846fd46d7e70da8f2ee71c9a5875bc6df9e43d618f00831e7bf788ad87160cb40d3cc6e1c15651b72dc
   languageName: node
   linkType: hard
 
@@ -8747,7 +8747,7 @@ __metadata:
     "@graphql-codegen/typescript": 2.7.1
     "@graphql-codegen/typescript-document-nodes": 2.3.1
     "@graphql-codegen/typescript-operations": 2.5.1
-    "@meskill/sharec-config": ^1.0.8
+    "@meskill/sharec-config": ^1.0.9
     "@plasmohq/prettier-plugin-sort-imports": 1.1.1
     "@types/chrome": 0.0.193
     "@types/jest": ^28.1.6
