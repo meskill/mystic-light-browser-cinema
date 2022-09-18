@@ -3,7 +3,7 @@ import type { PlasmoContentScript } from 'plasmo';
 import { MysticLightApi } from './api';
 import { ApiError } from './errors';
 import { getAddressWithStorage, writeAddressIntoStorage } from './storage';
-import type { ExtensionMessageShowAlert } from './types/message';
+import type { ShowAlertExtensionMessage } from './types/message';
 import { retry } from './utils/retry';
 import iframeUrl from 'url:./iframe.html';
 
@@ -94,7 +94,7 @@ document.addEventListener('visibilitychange', () => {
 	}
 });
 
-chrome.runtime.onMessage.addListener((request: ExtensionMessageShowAlert['request']) => {
+chrome.runtime.onMessage.addListener((request: ShowAlertExtensionMessage) => {
 	if (request.type === 'showAlert') {
 		alert(request.message);
 		return true;

@@ -8,6 +8,7 @@ import type {
 } from './types/graphql';
 import { getPortFromUrl } from './utils/getPortFromUrl';
 import { ApiError } from './errors';
+import { clearPrevStateStorage, getPrevStateStorage, writePrevStateStorage } from '~storage';
 
 const GET_DEVICES_QUERY = gql`
 	query GetDevices {
@@ -54,7 +55,7 @@ export class MysticLightApi {
 	private readonly serverUrl: string;
 	private readonly client: GraphQLClient;
 
-	private previousState?: GetDevicesQuery;
+	private prevState?: GetDevicesQuery;
 	constructor(address: string) {
 		this.serverUrl = `http://localhost:${getPortFromUrl(address)}`;
 
@@ -78,7 +79,9 @@ export class MysticLightApi {
 	}
 
 	async turnOffTheLight() {
-		this.previousState = await this.client.request<GetDevicesQuery>(GET_DEVICES_QUERY);
+		this.prevState = await this.client.request<GetDevicesQuery>(GET_DEVICES_QUERY);
+
+		await writePrevStateStorage(this.prevState);
 
 		await this.client.request<SetStateForAllMutation, SetStateForAllMutationVariables>(DEVICES_SET_STATE_ALL, {
 			state: {
@@ -93,12 +96,12 @@ export class MysticLightApi {
 	}
 
 	async revertPrevStates() {
-		if (!this.previousState) {
+		if (!this.prevState) {
 			throw new ApiError('No previous state');
 		}
 
 		await this.client.batchRequests<SetStateForSingleLedMutation, SetStateForSingleLedMutationVariables>(
-			this.previousState.devices.flatMap((device) =>
+			this.prevState.devices.flatMap((device) =>
 				device.leds.map((led) => {
 					return {
 						document: DEVICE_SET_STATE_SINGLE,
@@ -112,6 +115,18 @@ export class MysticLightApi {
 			)
 		);
 
-		this.previousState = undefined;
+		this.prevState = undefined;
+
+		clearPrevStateStorage();
+	}
+
+	async restorePrevState() {
+		const prevState = await getPrevStateStorage();
+
+		if (prevState) {
+			this.prevState = prevState;
+
+			await this.revertPrevStates();
+		}
 	}
 }

@@ -4,8 +4,10 @@ import { GITHUB_URL } from './constants/info';
 import { DISPLAY_NAME } from './constants/info';
 import { resolveMysticLightAddress } from './mysticLightConfig';
 import { getAddressWithStorage, writeAddressIntoStorage } from './storage';
-import type { ExtensionMessageShowAlert } from './types/message';
+import type { FullscreenExtensionMessages, ShowAlertExtensionMessage } from './types/message';
 import { checkFileSchemeAccess } from './utils/checkFileSchemeAccess';
+
+const ALARM_FULLSCREEN_NAME = 'fullscreen-in-progress';
 
 const openInstructionsTabForNativeApp = async () => {
 	const instructionTab = await chrome.tabs.create({
@@ -16,7 +18,7 @@ const openInstructionsTabForNativeApp = async () => {
 		await waitTabLoaded(instructionTab);
 		await new Promise<void>((resolve) => {
 			if (instructionTab.id) {
-				chrome.tabs.sendMessage<ExtensionMessageShowAlert['request']>(
+				chrome.tabs.sendMessage<ShowAlertExtensionMessage>(
 					instructionTab.id,
 					{
 						type: 'showAlert',
@@ -40,7 +42,7 @@ const openInstructionsTabForExtension = async () => {
 		await waitTabLoaded(instructionTab);
 		await new Promise<void>((resolve) => {
 			if (instructionTab.id) {
-				chrome.tabs.sendMessage<ExtensionMessageShowAlert['request']>(
+				chrome.tabs.sendMessage<ShowAlertExtensionMessage>(
 					instructionTab.id,
 					{
 						type: 'showAlert',
@@ -97,4 +99,22 @@ chrome.runtime.onInstalled.addListener(async () => {
 	if (!hasNativeAppRunning) {
 		return openInstructionsTabForNativeApp();
 	}
+});
+
+chrome.runtime.onConnect.addListener((port) => {
+	console.assert(port.name === 'knockknock');
+	port.onMessage.addListener((message: FullscreenExtensionMessages) => {
+		switch (message.type) {
+			case 'enterFullscreen':
+			case 'pingFullscreen':
+				chrome.alarms.create(ALARM_FULLSCREEN_NAME, {
+					delayInMinutes: 3,
+				});
+
+				break;
+			case 'exitFullscreen':
+				chrome.alarms.clear(ALARM_FULLSCREEN_NAME);
+				break;
+		}
+	});
 });
