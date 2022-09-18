@@ -87,6 +87,13 @@ window.addEventListener('resize', async () => {
 	}
 });
 
+// restore state if any on browser tab or window close
+document.addEventListener('visibilitychange', () => {
+	if (document.visibilityState === 'hidden') {
+		api?.revertPrevStates();
+	}
+});
+
 chrome.runtime.onMessage.addListener((request: ExtensionMessageShowAlert['request']) => {
 	if (request.type === 'showAlert') {
 		alert(request.message);

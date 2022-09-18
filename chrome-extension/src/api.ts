@@ -60,7 +60,14 @@ export class MysticLightApi {
 
 		const endpoint = `${this.serverUrl}/mystic_light`;
 
-		this.client = new GraphQLClient(endpoint);
+		this.client = new GraphQLClient(endpoint, {
+			fetch: (requestInfo: RequestInfo | URL, init?: RequestInit) => {
+				return fetch(requestInfo, {
+					...init,
+					keepalive: true,
+				});
+			},
+		});
 	}
 
 	async healthz() {
