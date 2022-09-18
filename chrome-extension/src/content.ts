@@ -23,6 +23,8 @@ const getAddressWithIframe = () => {
 				window.removeEventListener('message', listener);
 
 				writeAddressIntoStorage(data);
+				iframe.remove();
+
 				resolve(data);
 			}
 		};
