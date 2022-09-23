@@ -1,0 +1,3 @@
+# personal configs
+.devcontainer/fish-history
+.env
