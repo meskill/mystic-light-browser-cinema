@@ -1,0 +1,166 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'native-app/**'
+      - 'chrome-extension/**'
+      - '.github/workflows/publish.yml'
+      - '.github/scripts/prepare.sh'
+
+jobs:
+  get-version:
+    runs-on: windows-2022
+    outputs:
+      version: ${{ steps.release.outputs.new_release_version }}
+    steps:
+      - name: Generate Token
+        id: generate-token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.TOKEN_APP_ID }}
+          private_key: ${{ secrets.TOKEN_APP_PRIVATE_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Dry-Run Publish
+        uses: cycjimmy/semantic-release-action@v3
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+        with:
+          dry_run: true
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+            conventional-changelog-conventionalcommits
+
+  build-native-app:
+    runs-on: windows-2022
+    needs: get-version
+    env:
+      MYSTIC_LIGHT_SDK_PATH: ${{ github.workspace }}/native-app/sdk
+    defaults:
+      run:
+        working-directory: native-app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # TODO: only 1.64.0 as there is an warning: the following packages contain code that will be rejected by a future version of Rust: winapi v0.2.8
+          toolchain: 1.64.0
+      - name: Set version
+        run: |
+          cargo install cargo-edit
+          cargo set-version ${{ needs.get-version.outputs.version }}
+      - name: Create artifact for manifest
+        uses: actions/upload-artifact@v3
+        with:
+          name: manifests
+          path: native-app/Cargo.toml
+          retention-days: 1
+      - name: Build
+        run: cargo build --release --bin install --bin uninstall --bin service
+      - name: Generate Installer
+        run: iscc.exe installer/inno-setup.iss
+      - name: Rename release with version
+        run: mv dist/mystic-light-browser-cinema.exe dist/mystic-light-browser-cinema-${{ needs.get-version.outputs.version }}.exe
+      - name: Create artifact from installer
+        uses: actions/upload-artifact@v3
+        with:
+          name: installer
+          path: native-app/dist/
+          retention-days: 1
+
+  build-chrome-extension:
+    runs-on: windows-2022
+    needs: get-version
+    defaults:
+      run:
+        working-directory: chrome-extension
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+          cache-dependency-path: chrome-extension/yarn.lock
+      - name: Install dependencies
+        run: yarn
+      - name: Set version
+        run: yarn version ${{ needs.get-version.outputs.version }}
+      - name: Create artifact for manifest
+        uses: actions/upload-artifact@v3
+        with:
+          name: manifests
+          path: chrome-extension/package.json
+          retention-days: 1
+      - name: Build extension
+        run: |
+          yarn build --zip
+          mv build/chrome-mv3-prod.zip build/mystic-light-browser-cinema-extension-${{ needs.get-version.outputs.version }}.zip
+      - name: Create artifact from extension
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension
+          path: chrome-extension/build/
+          retention-days: 1
+
+  release:
+    runs-on: windows-2022
+    needs:
+      - build-native-app
+      - build-chrome-extension
+    steps:
+      - name: Generate Token
+        id: generate-token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.TOKEN_APP_ID }}
+          private_key: ${{ secrets.TOKEN_APP_PRIVATE_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Get installer artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: installer
+          path: dist
+      - name: Get extension artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: extension
+          path: dist
+      - name: Get manifests artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: manifests
+          path: manifests
+      - name: Restore manifests
+        shell: bash
+        run: |
+          mv manifests/Cargo.toml native-app/Cargo.toml
+          mv manifests/package.json chrome-extension/package.json
+      - name: Release
+        uses: cycjimmy/semantic-release-action@v3
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+            conventional-changelog-conventionalcommits

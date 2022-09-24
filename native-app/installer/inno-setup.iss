@@ -30,6 +30,7 @@ RestartApplications=no
 CloseApplications=yes
 ; # Output Info
 OutputDir="dist"
+OutputBaseFilename=mystic-light-browser-cinema
 ; # Looking
 WizardStyle=modern
 SetupIconFile="installer\assets\icon.ico"

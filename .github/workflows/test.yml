@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: test
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  native-app:
+    name: Test native app
+    runs-on: windows-2022
+    env:
+      MYSTIC_LIGHT_SDK_PATH: ${{ github.workspace }}/native-app/sdk
+    defaults:
+      run:
+        working-directory: native-app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # TODO: only 1.64.0 as there is an warning: the following packages contain code that will be rejected by a future version of Rust: winapi v0.2.8
+          toolchain: 1.64.0
+          components: clippy
+      - name: check
+        run: cargo check --locked --all-targets
+      - name: Lint src
+        run: cargo clippy --all-targets -- -D warnings
+
+  chrome-extension:
+    name: Test chrome extension
+    runs-on: windows-2022
+    defaults:
+      run:
+        working-directory: chrome-extension
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+          cache-dependency-path: chrome-extension/yarn.lock
+      - name: Install dependencies
+        run: yarn
+      - name: Lint src
+        run: yarn lint
+      - name: Unit tests
+        run: yarn test
