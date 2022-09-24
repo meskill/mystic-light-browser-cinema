@@ -1,0 +1,153 @@
+
+"""
+Represent RGB color
+"""
+type Color {
+	red: Int!
+	green: Int!
+	blue: Int!
+}
+
+"""
+Represent RGB color
+"""
+input ColorInput {
+	red: Int! 
+	green: Int! 
+	blue: Int! 
+}
+
+"""
+Represents single hardware MysticLight Device
+"""
+type Device {
+	name: String!
+	"""
+	returns device's leds
+	"""
+	leds(filter: DeviceLedFilter! = {names: null}): [DeviceLed!]!
+}
+
+"""
+used for filtering devices.
+Currently, supports only filtering by name
+"""
+input DeviceFilter {
+	names: [String!] 
+}
+
+"""
+Represents single led of the device
+"""
+type DeviceLed {
+	name: String!
+	supportedStyles: [String!]!
+	maxBright: Int!
+	maxSpeed: Int!
+	state: DeviceLedState!
+}
+
+"""
+used for filtering device's leds.
+Currently, supports only filtering by name
+"""
+input DeviceLedFilter {
+	names: [String!] 
+}
+
+"""
+Mutation wrapper for a device led
+"""
+type DeviceLedMutation {
+	"""
+	updates state for the device led
+	"""
+	setState(state: DeviceLedStateInput!): Boolean!
+}
+
+"""
+Represents state of the single led
+"""
+type DeviceLedState {
+	"""
+	current style of the led
+	"""
+	style: String!
+	"""
+	current color of the led (some of the styles do not support this, so there will be fake data in this case)
+	"""
+	color: Color!
+	"""
+	current brightness of the led (some of the styles do not support this, so there will be fake data in this case)
+	"""
+	bright: Int!
+	"""
+	current speed of the led (some of the styles do not support this, so there will be fake data in this case)
+	"""
+	speed: Int!
+}
+
+"""
+Represents state of the single led, but with optional fields
+"""
+input DeviceLedStateInput {
+	"""
+	current style of the led
+	"""
+	style: String 
+	"""
+	current color of the led (some of the styles do not support this, so there will be fake data in this case)
+	"""
+	color: ColorInput 
+	"""
+	current brightness of the led (some of the styles do not support this, so there will be fake data in this case)
+	"""
+	bright: Int 
+	"""
+	current speed of the led (some of the styles do not support this, so there will be fake data in this case)
+	"""
+	speed: Int 
+}
+
+"""
+Mutation wrapper for a device
+"""
+type DeviceMutation {
+	"""
+	returns device's leds wrapped in mutation wrapper
+	"""
+	leds(filter: DeviceLedFilter! = {names: null}): [DeviceLedMutation!]!
+}
+
+
+
+
+"""
+Graphql mutation for MysticLightSDK
+"""
+type MysticLightGraphqlMutation {
+	"""
+	returns Mystic Light devices wrapped in mutation wrapper
+	"""
+	devices(filter: DeviceFilter! = {names: null}): [DeviceMutation!]!
+	"""
+	Full reload of Mystic Light SDK to get most-fresh hardware data
+	"""
+	reload: Boolean!
+}
+
+"""
+Graphql query for MysticLightSDK
+"""
+type MysticLightGraphqlQuery {
+	"""
+	returns Mystic Light devices
+	"""
+	devices(filter: DeviceFilter! = {names: null}): [Device!]!
+}
+
+
+schema {
+	query: MysticLightGraphqlQuery
+	mutation: MysticLightGraphqlMutation
+}
