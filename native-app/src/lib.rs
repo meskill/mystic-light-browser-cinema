@@ -1,10 +1,10 @@
 mod app;
 mod config;
 pub mod constants;
-mod graphql;
+pub mod graphql;
 pub mod log;
 mod props;
-mod sdk;
+pub mod sdk;
 pub mod service;
 
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
