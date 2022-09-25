@@ -1,3 +1,15 @@
+## [1.0.1](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.0...v1.0.1) (2022-09-25)
+
+
+### Bug Fixes
+
+* **native-app:** add failure actions for service ([e12ed5f](https://github.com/meskill/mystic-light-browser-cinema/commit/e12ed5fc2bac5ae73e0da447a5b015ecf6c22334))
+
+
+### Continuous Integration
+
+* fix some publish details ([af88dcf](https://github.com/meskill/mystic-light-browser-cinema/commit/af88dcff2fce7c5b4d907b494b4c6613a3c7899b))
+
 ## 1.0.0 (2022-09-25)
 
 
