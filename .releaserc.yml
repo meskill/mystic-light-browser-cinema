@@ -7,7 +7,7 @@ plugins:
         - { type: chore, release: patch }
         - { type: improvement, release: patch }
         - { type: refactor, release: patch }
-        - { type: ci, release: false }
+        - { type: ci, release: patch }
         - { subject: "*\\[skip release\\]*", release: false }
   - - '@semantic-release/release-notes-generator'
     - preset: 'conventionalcommits'
@@ -36,3 +36,4 @@ plugins:
         - CHANGELOG.md
         - chrome-extension/package.json
         - native-app/Cargo.toml
+        - native-app/Cargo.lock
