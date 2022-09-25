@@ -20,12 +20,9 @@ use props::Props;
 use sdk::create_sdk;
 
 const STATIC_PORT: u16 = 5000;
+const RANDOM_PORT: u16 = 0; // zero as a random unused port. [reference](https://rust-lang-nursery.github.io/rust-cookbook/net/server.html)
 const MAX_ATTEMPTS_SDK_INIT: u8 = 1;
 const ATTEMPTS_TIMEOUT: u64 = 5;
-
-fn resolve_random_port() -> Option<u16> {
-    portpicker::pick_unused_port()
-}
 
 pub struct AppBuilder {
     random_port: bool,
@@ -70,7 +67,7 @@ impl AppBuilder {
 
     pub fn build(&mut self) -> Result<App, CommonError> {
         let port = if self.random_port {
-            resolve_random_port().expect("Cannot resolve port")
+            RANDOM_PORT
         } else {
             STATIC_PORT
         };
