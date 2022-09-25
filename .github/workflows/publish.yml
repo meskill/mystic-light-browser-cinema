@@ -10,8 +10,9 @@ on:
     paths:
       - 'native-app/**'
       - 'chrome-extension/**'
+      - '!native-app/README.md'
+      - '!chrome-extension/README.md'
       - '.github/workflows/publish.yml'
-      - '.github/scripts/prepare.sh'
 
 jobs:
   get-version:
@@ -44,6 +45,7 @@ jobs:
   build-native-app:
     runs-on: windows-2022
     needs: get-version
+    if: ${{ needs.get-version.outputs.version }}
     env:
       MYSTIC_LIGHT_SDK_PATH: ${{ github.workspace }}/native-app/sdk
     defaults:
@@ -65,12 +67,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: manifests
-          path: native-app/Cargo.toml
+          path: native-app/Cargo.*
           retention-days: 1
       - name: Build
         run: cargo build --release --bin install --bin uninstall --bin service
       - name: Generate Installer
-        run: iscc.exe installer/inno-setup.iss
+        run: iscc.exe installer/inno-setup.iss /DAppVersion="${{ needs.get-version.outputs.version }}"
       - name: Rename release with version
         run: mv dist/mystic-light-browser-cinema.exe dist/mystic-light-browser-cinema-${{ needs.get-version.outputs.version }}.exe
       - name: Create artifact from installer
@@ -83,6 +85,7 @@ jobs:
   build-chrome-extension:
     runs-on: windows-2022
     needs: get-version
+    if: ${{ needs.get-version.outputs.version }}
     defaults:
       run:
         working-directory: chrome-extension
@@ -152,7 +155,7 @@ jobs:
       - name: Restore manifests
         shell: bash
         run: |
-          mv manifests/Cargo.toml native-app/Cargo.toml
+          mv manifests/Cargo.* native-app/
           mv manifests/package.json chrome-extension/package.json
       - name: Release
         uses: cycjimmy/semantic-release-action@v3
