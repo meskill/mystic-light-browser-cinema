@@ -118,6 +118,8 @@ pub fn install_service(executable_path: PathBuf) -> ServiceResult<()> {
         reboot_msg: None,
     })?;
 
+    service.set_failure_actions_on_non_crash_failures(true)?;
+
     tracing::info!("Installing successful");
 
     tracing::info!("Starting the service");
