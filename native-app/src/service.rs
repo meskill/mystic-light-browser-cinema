@@ -4,6 +4,10 @@ use std::path::PathBuf;
 use std::thread;
 use std::time::Duration;
 
+use windows_service::service::ServiceAction;
+use windows_service::service::ServiceActionType;
+use windows_service::service::ServiceFailureActions;
+use windows_service::service::ServiceFailureResetPeriod;
 use windows_service::{
     service::{
         Service, ServiceAccess, ServiceDependency, ServiceErrorControl, ServiceInfo,
@@ -91,6 +95,28 @@ pub fn install_service(executable_path: PathBuf) -> ServiceResult<()> {
 
     service.change_config(&service_info)?;
     service.set_description("Companion service for Mystic Light Browser Cinema extension")?;
+
+    let actions = vec![
+        ServiceAction {
+            action_type: ServiceActionType::Restart,
+            delay: Duration::from_secs(60),
+        },
+        ServiceAction {
+            action_type: ServiceActionType::Restart,
+            delay: Duration::from_secs(300),
+        },
+        ServiceAction {
+            action_type: ServiceActionType::None,
+            delay: Duration::default(),
+        },
+    ];
+
+    service.update_failure_actions(ServiceFailureActions {
+        reset_period: ServiceFailureResetPeriod::After(Duration::from_secs(60)),
+        actions: Some(actions),
+        command: None,
+        reboot_msg: None,
+    })?;
 
     tracing::info!("Installing successful");
 
