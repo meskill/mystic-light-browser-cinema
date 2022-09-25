@@ -67,14 +67,14 @@ jobs:
         run: |
           cargo install cargo-edit
           cargo set-version ${{ needs.get-version.outputs.version }}
+      - name: Build
+        run: cargo build --release --bin install --bin uninstall --bin service
       - name: Create artifact for manifest
         uses: actions/upload-artifact@v3
         with:
           name: manifests
           path: native-app/Cargo.*
           retention-days: 7
-      - name: Build
-        run: cargo build --release --bin install --bin uninstall --bin service
       - name: Generate Installer
         run: iscc.exe installer/inno-setup.iss
       - name: Rename release with version
