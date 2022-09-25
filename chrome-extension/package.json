@@ -1,7 +1,7 @@
 {
 	"name": "mystic-light-browser-cinema",
 	"displayName": "MysticLight Browser Cinema",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Allows to subscribe to browser fullscreen event to control mystic light gears lighting",
 	"author": "meskill <8974488+meskill@users.noreply.github.com>",
 	"scripts": {

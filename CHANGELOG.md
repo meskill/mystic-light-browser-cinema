@@ -1,3 +1,21 @@
+## [1.0.2](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.1...v1.0.2) (2022-09-25)
+
+
+### Bug Fixes
+
+* **native-app:** enable fail actions for the internal errors as well ([e622d4b](https://github.com/meskill/mystic-light-browser-cinema/commit/e622d4bdf7c8b4545ca2e6b84720ea7ca00267f1))
+
+
+### Continuous Integration
+
+* fix Cargo.lock update ([b3c8f2d](https://github.com/meskill/mystic-light-browser-cinema/commit/b3c8f2df3df73974065a51d9c2e6338d8309aba7))
+
+
+### Code Refactoring
+
+* **native-app:** change the way random port for listening is picked ([a16cf59](https://github.com/meskill/mystic-light-browser-cinema/commit/a16cf59526c1268e23b96f4c0b62a5b0a4a42fef))
+* **native-app:** change the way to override logs are written ([36f42d4](https://github.com/meskill/mystic-light-browser-cinema/commit/36f42d4ff280a5a460251e7c7f01cce9b56e9087))
+
 ## [1.0.1](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.0...v1.0.1) (2022-09-25)
 
 
