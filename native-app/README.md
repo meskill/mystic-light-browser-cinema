@@ -1,12 +1,22 @@
 # Native-app
 
-Native app written in Rust and wrapped in Windows service to provide interaction between `Mystic Light SDK` and `Mystic Light Browser Cinema` browser extension
+Native app is written in Rust and wrapped in Windows service to provide interaction between `Mystic Light SDK` and `Mystic Light Browser Cinema` browser extension
+
+## How does it work
+
+- native-app is based on [mystic-light-sdk Rust crate](https://github.com/meskill/mystic-light-sdk) that provides a wrapper for the underlying [Mystic Light SDK](https://www.msi.com/Landing/mystic-light-rgb-gaming-pc/download#:~:text=MYSTIC%20LIGHT%20SDK%20FOR%20DEVELOPERS)
+- native-app is basically a Windows service that implements next logic:
+  - starts a server that listens on a random port for requests
+  - writes additional information about its run parameters to "%ProgramData%\\Mystic Light\\Mystic Light Browser Cinema"
+  - on request it applies the changes through sdk to the hardware devices
+- service itself and additional tools for its install/uninstall actions are implemented with [windows_service crate](https://github.com/mullvad/windows-service-rs)
+- installer is made with [Inno Setup](https://jrsoftware.org/isinfo.php)
 
 ## Debug
 
 Logs for service and install/uninstall tools are stored in directory `%ProgramData%\\Mystic Light\\Mystic Light Browser Cinema\\logs`
 
-By default, logs contains events from app itself, underlying sdk and install/uninstall tools.
+By default, logs contain events from app itself, underlying sdk and install/uninstall tools.
 
 ### Control log output
 
@@ -16,7 +26,7 @@ If env is not specified the default value will be used that roughly equals to `e
 
 By specifying this options you may control what will be output to the logs files. To figure out how to specify this env refer to [tracing_subscriber](https://docs.rs/tracing-subscriber/0.3.15/tracing_subscriber/struct.EnvFilter.html#directives) documentation and look for the available targets below. This env should reside under `System Variables` not `User variables` as all of the apps are running from the administrator account, not user.
 
-> After adding/changing env value you have to restart Mystic Light Browser Cinema service. It might be done through `Services` panel in Windows - just find the service, open context menu and pick up restart
+> After adding/changing env value you have to restart Mystic Light Browser Cinema service. It might be done through `Services` panel in Windows - just find the service, open context menu and click restart
 
 The most important targets in logging are:
 - mystic_light_browser_cinema - logs from the app itself
