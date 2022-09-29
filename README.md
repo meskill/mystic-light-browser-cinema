@@ -57,7 +57,7 @@ To verify that everything is set correctly:
 
 ### Browser extension
 
-1. Install `Mystic Light Browser Cinema` extension from [github releases page](https://github.com/meskill/mystic-light-browser-cinema/releases)
+1. Install `Mystic Light Browser Cinema` extension from [Chrome Web Store](https://chrome.google.com/webstore/detail/mystic-light-browser-cine/gdpnjcddcajojjckihckodnehnjghbcp) or from [github releases page](https://github.com/meskill/mystic-light-browser-cinema/releases)
 2. Navigate to `chrome://extensions` and click "Details" on the newly installed extension.
 3. Scroll down and make sure the "Allow access to file URLs" is enabled.
 

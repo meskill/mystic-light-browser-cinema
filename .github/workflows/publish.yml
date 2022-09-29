@@ -124,6 +124,7 @@ jobs:
   release:
     runs-on: windows-2022
     needs:
+      - get-version
       - build-native-app
       - build-chrome-extension
     steps:
@@ -167,3 +168,8 @@ jobs:
             @semantic-release/changelog
             @semantic-release/git
             conventional-changelog-conventionalcommits
+      - name: Browser Platform Publish
+        uses: PlasmoHQ/bpp@v3
+        with:
+          artifact: dist/mystic-light-browser-cinema-extension-${{ needs.get-version.outputs.version }}.zip
+          keys: ${{ secrets.BROWSER_PUBLISH_KEYS }}
