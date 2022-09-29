@@ -33,7 +33,7 @@ Make sure you followed the instruction on how to install and run it.`,
 
 const openInstructionsTabForExtension = async () => {
 	const instructionTab = await chrome.tabs.create({
-		url: `${GITHUB_URL}#chrome-extension`,
+		url: `${GITHUB_URL}#browser-extension`,
 	});
 
 	if (instructionTab.id) {
@@ -85,12 +85,13 @@ const checkApiIsAvailable = async () => {
 chrome.runtime.onInstalled.addListener(async () => {
 	const hasFileSchemaAccess = await checkFileSchemeAccess();
 
-	if (hasFileSchemaAccess) {
-		await resolveAddress();
-	} else {
+	if (!hasFileSchemaAccess) {
 		await openInstructionsTabForExtension();
-		await resolveAddress();
 	}
+
+	await resolveAddress().catch((error) => {
+		console.error(error);
+	});
 
 	const hasNativeAppRunning = await checkApiIsAvailable();
 
