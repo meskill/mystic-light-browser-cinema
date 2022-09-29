@@ -1,6 +1,6 @@
 # Browser extension
 
-Extension that can communicate with [native-app](../native-app/README.md) to change the state of MysticLight devices on browser events
+Extension that can communicate with [native-app](../native-app/README.md) to change the state of Mystic Light devices on browser events
 
 ## How does it work
 

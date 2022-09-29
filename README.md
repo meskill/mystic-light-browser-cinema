@@ -1,4 +1,4 @@
-# MysticLight Browser Cinema
+# Mystic Light Browser Cinema
 
 Extension for Chromium-based browsers (Chromium, Chrome, Vivaldi, Edge, Yandex.Browser) that allows to disable lighting effects of your Mystic Light compatible (mostly comes under MSI trademark) RGB peripherals and components on event when browser enters fullscreen mode.
 
@@ -57,7 +57,7 @@ To verify that everything is set correctly:
 
 ### Browser extension
 
-1. Install `MysticLight Browser Cinema` extension from [github releases page](https://github.com/meskill/mystic-light-browser-cinema/releases)
+1. Install `Mystic Light Browser Cinema` extension from [github releases page](https://github.com/meskill/mystic-light-browser-cinema/releases)
 2. Navigate to `chrome://extensions` and click "Details" on the newly installed extension.
 3. Scroll down and make sure the "Allow access to file URLs" is enabled.
 
@@ -80,7 +80,7 @@ To verify that everything is set correctly:
 ## Caveats
 
 - Supports only `Windows`
-- Changing device state not through MysticLight app wont be detected by the extension and that will mess up the lighting for you. So prefer to change light effects only through MSI app.
+- Changing device state not through Mystic Light app wont be detected by the extension and that will mess up the lighting for you. So prefer to change light effects only through MSI app.
 - Only default `%ProgramData%` location is supported. E.g. `C:\\ProgramData`
 
 ## Troubleshooting
@@ -106,7 +106,7 @@ If you have everything installed follow [this instruction](#no-answer-on-my-ques
 Please create Issue on [GitHub](https://github.com/meskill/mystic-light-browser-cinema/issues) with detailed report.
 
 Provide next information:
-- screenshot of opened MSI app that shows your MysticLight compatible devices
+- screenshot of opened MSI app that shows your Mystic Light compatible devices
 - screenshot of opened Windows Services app that shows that you have running "Mystic Light Browser Cinema" service
 - send as an archive the logs from "C:\ProgramData\Mystic Light\Mystic Light Browser Cinema\logs" folder
 
