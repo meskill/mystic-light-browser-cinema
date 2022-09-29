@@ -1,3 +1,20 @@
+## [1.0.3](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.2...v1.0.3) (2022-09-29)
+
+
+### Bug Fixes
+
+* **chrome-extension:** fixes of the alert messages ([799229d](https://github.com/meskill/mystic-light-browser-cinema/commit/799229dc5d58232721faea678beced8939c77c10))
+
+
+### Continuous Integration
+
+* fix required checks ([5f24a69](https://github.com/meskill/mystic-light-browser-cinema/commit/5f24a69b6ea5e26c47647f6a5dea53a834916f81))
+
+
+### Documentation
+
+* add READMEs ([a54991e](https://github.com/meskill/mystic-light-browser-cinema/commit/a54991e285db3823ebd160eb959de747097e2231))
+
 ## [1.0.2](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.1...v1.0.2) (2022-09-25)
 
 
