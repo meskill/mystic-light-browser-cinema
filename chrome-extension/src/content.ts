@@ -96,9 +96,10 @@ document.addEventListener('visibilitychange', () => {
 	}
 });
 
-chrome.runtime.onMessage.addListener((request: ExtensionMessageShowAlert['request']) => {
+chrome.runtime.onMessage.addListener((request: ExtensionMessageShowAlert['request'], _sender, sendResponse) => {
 	if (request.type === 'showAlert') {
 		alert(request.message);
-		return true;
 	}
+
+	sendResponse();
 });
