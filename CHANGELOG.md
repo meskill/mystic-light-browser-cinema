@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.3...v1.0.4) (2022-09-29)
+
+
+### Bug Fixes
+
+* **chrome-extension:** consistent Mystic Light naming ([bffde64](https://github.com/meskill/mystic-light-browser-cinema/commit/bffde64e6ddc79b718483092adf264ed51424adb))
+
 ## [1.0.3](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.2...v1.0.3) (2022-09-29)
 
 
