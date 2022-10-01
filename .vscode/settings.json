@@ -1,0 +1,14 @@
+{
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": "chrome-extension/.yarn/sdks",
+  "prettier.prettierPath": "chrome-extension/.yarn/sdks/prettier/index.js",
+  "typescript.tsdk": "chrome-extension/.yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "conventionalCommits.scopes": [
+    "native-app",
+    "chrome-extension"
+  ]
+}
