@@ -169,7 +169,7 @@ jobs:
             @semantic-release/git
             conventional-changelog-conventionalcommits
       - name: Browser Platform Publish
-        uses: PlasmoHQ/bpp@v3
+        uses: PlasmoHQ/bpp@v2
         with:
           artifact: dist/mystic-light-browser-cinema-extension-${{ needs.get-version.outputs.version }}.zip
           keys: ${{ secrets.BROWSER_PUBLISH_KEYS }}

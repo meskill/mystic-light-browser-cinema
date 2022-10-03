@@ -133,6 +133,7 @@ jobs:
   test-release:
     runs-on: windows-2022
     needs:
+      - get-version
       - build-native-app
       - build-chrome-extension
     steps:
