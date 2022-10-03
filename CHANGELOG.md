@@ -1,3 +1,17 @@
+## [1.0.5](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.4...v1.0.5) (2022-10-03)
+
+
+### Chores
+
+* add devcontainer setup and contribution guide ([e10d101](https://github.com/meskill/mystic-light-browser-cinema/commit/e10d101d774138fb53e6467be27d6f5f5f3589cf))
+* **chrome-extension:** simplify check for fileSchemaAccess ([7198e54](https://github.com/meskill/mystic-light-browser-cinema/commit/7198e54eea1ae75cedf5ed58b000c09ab0ce6c01))
+
+
+### Continuous Integration
+
+* **chrome-extension:** automate publish to chrome web store ([be7f4a6](https://github.com/meskill/mystic-light-browser-cinema/commit/be7f4a667914dde0337f6e453135a2da92462c8b))
+* fix Browser Publisher action version ([829eaef](https://github.com/meskill/mystic-light-browser-cinema/commit/829eaef886b7dd91484912e80e146c3ea1faee40))
+
 ## [1.0.4](https://github.com/meskill/mystic-light-browser-cinema/compare/v1.0.3...v1.0.4) (2022-09-29)
 
 

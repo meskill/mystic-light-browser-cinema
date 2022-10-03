@@ -921,7 +921,7 @@ dependencies = [
 
 [[package]]
 name = "mystic_light_browser_cinema"
-version = "1.0.4"
+version = "1.0.5"
 dependencies = [
  "async-graphql",
  "async-graphql-axum",
