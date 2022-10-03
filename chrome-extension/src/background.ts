@@ -5,7 +5,6 @@ import { DISPLAY_NAME } from './constants/info';
 import { resolveMysticLightAddress } from './mysticLightConfig';
 import { getAddressWithStorage, writeAddressIntoStorage } from './storage';
 import type { ExtensionMessageShowAlert } from './types/message';
-import { checkFileSchemeAccess } from './utils/checkFileSchemeAccess';
 
 const openInstructionsTabForNativeApp = async () => {
 	const instructionTab = await chrome.tabs.create({
@@ -83,7 +82,7 @@ const checkApiIsAvailable = async () => {
 };
 
 chrome.runtime.onInstalled.addListener(async () => {
-	const hasFileSchemaAccess = await checkFileSchemeAccess();
+	const hasFileSchemaAccess = await chrome.extension.isAllowedFileSchemeAccess();
 
 	if (!hasFileSchemaAccess) {
 		await openInstructionsTabForExtension();
